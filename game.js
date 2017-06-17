@@ -9,9 +9,9 @@ class Sprite {
   @param {string} fileName Name of image file
   @param {bool} isPattern Used to check if this sprite is a background pattern or not.
   */
-  constructor(fileName, isPattern) {
+  constructor(fileName, isPattern = false) {
     this.image = null;
-    this.isPattern = null;
+    this.pattern = null;
     this.TO_RADIANS = Math.PI / 180;
 
     if (fileName === undefined || fileName === "" || filename === null) {
@@ -25,12 +25,30 @@ class Sprite {
       console.log("File name not given when creating Sprite object.");
     }
   }
+
+  draw(x, y, width = undefined, height = undefined) {
+    if (this.pattern !== null) {
+      context.fillStyle = this.pattern;
+      context.fillRect(x, y, width, height);
+    } else {
+      if (width === undefined || height === undefined) {
+        //draw using original image width and height
+        context.drawImage(this.image, x, y, this.image.width, this.image.height);
+      } else if (width !== undefined && height !== undefined) {
+        //stretch the image based on the given width and height
+        context.drawImage(this.image, x, y, width, height);
+      } else {
+        console.log("Invalid parameters given to Sprite.draw: width: " + width +
+          ", height: " + height);
+      }
+    }
+  }
 }
 
 $(document).ready(() => {
   context.beginPath();
   context.rect(0, 0, 640, 480);
-  //context.closePath();
+  context.closePath();
   context.fillStyle = "black";
   context.fill();
 });
