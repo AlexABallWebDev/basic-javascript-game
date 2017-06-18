@@ -68,15 +68,23 @@ class Sprite {
 }
 
 $(document).ready(() => {
-  // context.beginPath();
-  // context.rect(0, 0, 640, 480);
-  // context.closePath();
-  // context.fillStyle = "black";
-  // context.fill();
-
-  let pictureName = "face.png";
+  const pictureName = "face.png";
   const face = new Sprite(pictureName);
 
-  setTimeout(() => {face.rotate(25, 25, 45);}, 1000);
+  let angle = 0;
+
+  setInterval(() => {
+    //fill background each frame
+    context.fillStyle = "black";
+    context.fillRect(0, 0, 800, 800);
+
+    face.draw(15, 15);
+    face.draw(80, 15, 64, 64);
+    face.draw(160, 15, 32, 64);
+    face.draw(220, 15, 64, 32);
+
+    face.rotate(150, 150, angle);
+    angle += 2;
+  }, 25);
 
 });
