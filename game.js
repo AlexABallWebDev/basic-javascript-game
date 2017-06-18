@@ -8,6 +8,12 @@ const WALL_WIDTH = 20;
 
 const canvas = new Canvas(CANVAS_ID, CANVAS_WIDTH, CANVAS_HEIGHT);
 
+let brickArray = [
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 0, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 0, 1, 1, 1]
+];
+
 $(document).ready(() => {
   const face = new Sprite(canvas.context, "face.png");
 
@@ -19,16 +25,18 @@ $(document).ready(() => {
     canvas.context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     //draw bricks
-    for (let y = 1; y < 4; y++) {
+    for (let y = 0; y < 3; y++) {
       for (let x = 0; x < 10; x++) {
-        let tileX = WALL_WIDTH + (x * TILE_WIDTH);
-        let tileY = y * TILE_HEIGHT;
-        canvas.context.beginPath();
-        canvas.context.fillStyle = "black";
-        canvas.context.rect(tileX, tileY, TILE_WIDTH, TILE_HEIGHT);
-        canvas.context.stroke();
-        canvas.context.fillStyle = "yellow";
-        canvas.context.fillRect(tileX, tileY, TILE_WIDTH, TILE_HEIGHT);
+        if (brickArray[y][x] !== 0) {
+          let tileX = WALL_WIDTH + (x * TILE_WIDTH);
+          let tileY = (y + 1) * TILE_HEIGHT;
+          canvas.context.beginPath();
+          canvas.context.fillStyle = "black";
+          canvas.context.rect(tileX, tileY, TILE_WIDTH, TILE_HEIGHT);
+          canvas.context.stroke();
+          canvas.context.fillStyle = "yellow";
+          canvas.context.fillRect(tileX, tileY, TILE_WIDTH, TILE_HEIGHT);
+        }
       }
     }
 
