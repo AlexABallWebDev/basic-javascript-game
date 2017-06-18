@@ -14,7 +14,7 @@ class Sprite {
     this.pattern = null;
     this.TO_RADIANS = Math.PI / 180;
 
-    if (fileName === undefined || fileName === "" || filename === null) {
+    if (!(fileName === undefined || fileName === "" || fileName === null)) {
       this.image = new Image();
       this.image.src = fileName;
 
@@ -26,6 +26,15 @@ class Sprite {
     }
   }
 
+  /**
+  Draws the given Sprite.
+  @param {number} x The x coordinate to draw to on the canvas.
+  @param {number} y The y coordinate to draw to on the canvas.
+  @param {number} width How wide (in pixels) the image will be drawn.
+      Defaults to the image's original width.
+  @param {number} height How tall (in pixels) the image will be drawn.
+      Defaults to the image's original height.
+  */
   draw(x, y, width = undefined, height = undefined) {
     if (this.pattern !== null) {
       context.fillStyle = this.pattern;
@@ -37,18 +46,37 @@ class Sprite {
       } else if (width !== undefined && height !== undefined) {
         //stretch the image based on the given width and height
         context.drawImage(this.image, x, y, width, height);
-      } else {
-        console.log("Invalid parameters given to Sprite.draw: width: " + width +
-          ", height: " + height);
       }
     }
+  }
+
+  /**
+  Draws the Sprite rotated according to the given angle in degrees.
+  @param {number} x The x coordinate to draw to on the canvas.
+  @param {number} y The y coordinate to draw to on the canvas.
+  @param {number} angle The angle to rotate, in degrees.
+  */
+  rotate(x, y, angle) {
+    context.save();
+
+    context.translate(x, y);
+    context.rotate(angle * this.TO_RADIANS);
+    context.drawImage(this.image, -(this.image.width / 2), -(this.image.height / 2));
+
+    context.restore();
   }
 }
 
 $(document).ready(() => {
-  context.beginPath();
-  context.rect(0, 0, 640, 480);
-  context.closePath();
-  context.fillStyle = "black";
-  context.fill();
+  // context.beginPath();
+  // context.rect(0, 0, 640, 480);
+  // context.closePath();
+  // context.fillStyle = "black";
+  // context.fill();
+
+  let pictureName = "face.png";
+  const face = new Sprite(pictureName);
+
+  setTimeout(() => {face.rotate(25, 25, 45);}, 1000);
+
 });
