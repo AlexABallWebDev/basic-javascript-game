@@ -1,3 +1,5 @@
+const FRAMES_PER_SECOND = 60;
+
 const mainGameCanvas = document.getElementById("mainGameCanvas");
 const context = mainGameCanvas.getContext("2d");
 
@@ -18,7 +20,7 @@ $(document).ready(() => {
     face.draw(220, 15, 64, 32);
 
     face.rotate(150, 150, angle);
-    angle += 2;
-  }, 25);
+    angle += 1;
+  }, 1000 / FRAMES_PER_SECOND);
 
 });
