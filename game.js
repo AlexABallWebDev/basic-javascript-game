@@ -40,6 +40,26 @@ $(document).ready(() => {
       }
     }
 
+    //TODO add ball
+
+    //TODO add paddle
+
+    //TODO add keyboard controls for paddle
+
+    //TODO collision detection for ball
+
+    //TODO collision detection for paddle
+
+    //TODO collision detection for bricks
+
+    //TODO add score
+
+    //TODO add randomness to ball
+
+    //TODO add reset feature that saves score
+
+    //TODO add game over and then reset feature that resets score
+
     //draw walls
     canvas.context.fillStyle = "blue";
     canvas.context.fillRect(0, 0, WALL_WIDTH, CANVAS_HEIGHT);
