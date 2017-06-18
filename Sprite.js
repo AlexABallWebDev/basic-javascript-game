@@ -6,17 +6,17 @@ class Sprite {
   @param {string} fileName Name of image file
   @param {bool} isPattern Used to check if this sprite is a background pattern or not.
   */
-  constructor(fileName, isPattern = false) {
+  constructor(context, fileName, isPattern = false) {
+    this.context = context;
     this.image = null;
     this.pattern = null;
-    this.TO_RADIANS = Math.PI / 180;
 
     if (!(fileName === undefined || fileName === "" || fileName === null)) {
       this.image = new Image();
       this.image.src = fileName;
 
       if (isPattern) {
-        this.pattern = context.createPattern(this.image, 'repeat');
+        this.pattern = this.context.createPattern(this.image, 'repeat');
       }
     } else {
       console.log("File name not given when creating Sprite object.");
@@ -34,17 +34,26 @@ class Sprite {
   */
   draw(x, y, width = undefined, height = undefined) {
     if (this.pattern !== null) {
-      context.fillStyle = this.pattern;
-      context.fillRect(x, y, width, height);
+      this.context.fillStyle = this.pattern;
+      this.context.fillRect(x, y, width, height);
     } else {
       if (width === undefined || height === undefined) {
         //draw using original image width and height
-        context.drawImage(this.image, x, y, this.image.width, this.image.height);
+        this.context.drawImage(this.image, x, y, this.image.width, this.image.height);
       } else if (width !== undefined && height !== undefined) {
         //stretch the image based on the given width and height
-        context.drawImage(this.image, x, y, width, height);
+        this.context.drawImage(this.image, x, y, width, height);
       }
     }
+  }
+
+  /**
+  Converts angles in degrees to radians.
+  @param {number} angleInDegrees The angle to be converted in degrees.
+  @return {number} The converted angle in radians.
+  */
+  static convertToRadians(angleInDegrees) {
+    return angleInDegrees * (Math.PI / 180);
   }
 
   /**
@@ -54,12 +63,12 @@ class Sprite {
   @param {number} angle The angle to rotate, in degrees.
   */
   rotate(x, y, angle) {
-    context.save();
+    this.context.save();
 
-    context.translate(x, y);
-    context.rotate(angle * this.TO_RADIANS);
-    context.drawImage(this.image, -(this.image.width / 2), -(this.image.height / 2));
+    this.context.translate(x, y);
+    this.context.rotate(Sprite.convertToRadians(angle));
+    this.context.drawImage(this.image, -(this.image.width / 2), -(this.image.height / 2));
 
-    context.restore();
+    this.context.restore();
   }
 }
