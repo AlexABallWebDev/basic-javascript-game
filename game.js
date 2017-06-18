@@ -3,35 +3,17 @@ const CANVAS_ID = "mainGameCanvas";
 const CANVAS_WIDTH = 680;
 const CANVAS_HEIGHT = 480;
 
-let mainGameCanvas;
-let context;
-
-function prepareCanvas(canvasId, width, height) {
-  mainGameCanvas = document.getElementById(canvasId);
-  context = mainGameCanvas.getContext("2d");
-
-  $(mainGameCanvas).attr({
-    width: width,
-    height: height
-  });
-
-  $(mainGameCanvas).css({
-    width: width + "px",
-    height: height + "px",
-    border: " 1px solid black"
-  });
-}
+const canvas = new Canvas(CANVAS_ID, CANVAS_WIDTH, CANVAS_HEIGHT);
 
 $(document).ready(() => {
-  prepareCanvas(CANVAS_ID, CANVAS_WIDTH, CANVAS_HEIGHT);
-  const face = new Sprite("face.png");
+  const face = new Sprite(canvas.context, "face.png");
 
   let angle = 0;
 
   setInterval(() => {
     //fill background each frame
-    context.fillStyle = "black";
-    context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    canvas.context.fillStyle = "black";
+    canvas.context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     face.draw(15, 15);
     face.draw(80, 15, 64, 64);
