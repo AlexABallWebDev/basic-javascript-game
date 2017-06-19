@@ -40,17 +40,17 @@ $(document).ready(() => {
       }
     }
 
-    //TODO add ball
-
     //TODO add paddle
 
     //TODO add keyboard controls for paddle
 
-    //TODO collision detection for ball
+    //TODO add ball
 
-    //TODO collision detection for paddle
+    //TODO collision detection for ball and wall
 
-    //TODO collision detection for bricks
+    //TODO collision detection for paddle and ball
+
+    //TODO collision detection for bricks and ball
 
     //TODO add score
 
