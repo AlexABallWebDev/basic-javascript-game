@@ -2,11 +2,28 @@ const FRAMES_PER_SECOND = 60;
 const CANVAS_ID = "mainGameCanvas";
 const CANVAS_WIDTH = 680;
 const CANVAS_HEIGHT = 480;
+
 const TILE_WIDTH = 64;
 const TILE_HEIGHT = 32;
+
 const WALL_WIDTH = 20;
 
+const BALL_INITIAL_X = 331;
+const BALL_INITIAL_Y = 311;
+const BALL_X_VELOCITY = 2;
+const BALL_Y_VELOCITY = 2;
+const BALL_RADIUS = 9;
+
+const PADDLE_INITIAL_X = 300;
+const PADDLE_INITIAL_Y = 400;
+const PADDLE_WIDTH = 80;
+const PADDLE_HEIGHT = 20;
+
 const canvas = new Canvas(CANVAS_ID, CANVAS_WIDTH, CANVAS_HEIGHT);
+const ball = new Ball(canvas.context, BALL_INITIAL_X, BALL_INITIAL_Y,
+  BALL_X_VELOCITY, BALL_Y_VELOCITY, BALL_RADIUS);
+const paddle = new Paddle(canvas.context, PADDLE_INITIAL_X, PADDLE_INITIAL_Y,
+  PADDLE_WIDTH, PADDLE_HEIGHT);
 
 let brickArray = [
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -40,11 +57,11 @@ $(document).ready(() => {
       }
     }
 
-    //TODO add paddle
+    paddle.draw();
 
     //TODO add keyboard controls for paddle
 
-    //TODO add ball
+    ball.draw();
 
     //TODO collision detection for ball and wall
 
