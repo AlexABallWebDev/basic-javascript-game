@@ -30,7 +30,6 @@ class Ball {
   }
 
   draw() {
-    //TODO change to draw circle
-    this.context.drawRect(this.x, this.y, this.radius, this.radius);
+    //TODO change to draw circlethis.context.drawRect(this.x, this.y, this.radius, this.radius);
   }
 }
