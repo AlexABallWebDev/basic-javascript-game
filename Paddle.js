@@ -14,4 +14,8 @@ class Paddle {
   moveRight(velocity) {
     this.y -= velocity;
   }
+
+  draw() {
+    this.context.drawRect(this.x, this.y, this.width, this.height);
+  }
 }
