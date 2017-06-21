@@ -16,6 +16,7 @@ class Paddle {
   }
 
   draw() {
-    this.context.drawRect(this.x, this.y, this.width, this.height);
+    canvas.context.fillStyle = "red";
+    this.context.fillRect(this.x, this.y, this.width, this.height);
   }
 }
