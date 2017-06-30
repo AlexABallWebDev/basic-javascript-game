@@ -19,6 +19,10 @@ const PADDLE_INITIAL_Y = 400;
 const PADDLE_WIDTH = 80;
 const PADDLE_HEIGHT = 20;
 
+//keyboard keys
+const LEFT_KEY_CODE = 37;
+const RIGHT_KEY_CODE = 39;
+
 const canvas = new Canvas(CANVAS_ID, CANVAS_WIDTH, CANVAS_HEIGHT);
 const ball = new Ball(canvas.context, BALL_INITIAL_X, BALL_INITIAL_Y,
   BALL_X_VELOCITY, BALL_Y_VELOCITY, BALL_RADIUS);
@@ -27,12 +31,45 @@ const paddle = new Paddle(canvas.context, PADDLE_INITIAL_X, PADDLE_INITIAL_Y,
 
 let brickArray = [
   [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 0, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 0, 1, 1, 1]
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 ];
+
+let left_key_down = false;
+let right_key_down = false;
+
+
+function initializePaddleControls() {
+  //paddle controls
+  $(document).on("keydown", (e) => {
+    if (e.keyCode == LEFT_KEY_CODE) {
+      left_key_down = true;
+    }
+  });
+
+  $(document).on("keydown", (e) => {
+    if (e.keyCode == RIGHT_KEY_CODE) {
+      right_key_down = true;
+    }
+  });
+
+  $(document).on("keyup", (e) => {
+    if (e.keyCode == LEFT_KEY_CODE) {
+      left_key_down = false;
+    }
+  });
+
+  $(document).on("keyup", (e) => {
+    if (e.keyCode == RIGHT_KEY_CODE) {
+      right_key_down = false;
+    }
+  });
+}
 
 $(document).ready(() => {
   const face = new Sprite(canvas.context, "face.png");
+
+  initializePaddleControls();
 
   let angle = 0;
 
@@ -59,8 +96,6 @@ $(document).ready(() => {
 
     paddle.draw();
 
-    //TODO add keyboard controls for paddle
-
     ball.draw();
 
     //TODO collision detection for ball and wall
@@ -68,6 +103,8 @@ $(document).ready(() => {
     //TODO collision detection for paddle and ball
 
     //TODO collision detection for bricks and ball
+
+    //TODO make bricks vanish when collision occurs and disable collision with vanished bricks.
 
     //TODO add score
 
