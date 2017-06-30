@@ -18,6 +18,7 @@ const PADDLE_INITIAL_X = 300;
 const PADDLE_INITIAL_Y = 400;
 const PADDLE_WIDTH = 80;
 const PADDLE_HEIGHT = 20;
+const PADDLE_SPEED = 6;
 
 //keyboard keys
 const LEFT_KEY_CODE = 37;
@@ -97,6 +98,14 @@ $(document).ready(() => {
     paddle.draw();
 
     ball.draw();
+
+    if (left_key_down) {
+      paddle.moveLeft(PADDLE_SPEED);
+    }
+
+    if (right_key_down) {
+      paddle.moveRight(PADDLE_SPEED);
+    }
 
     //TODO collision detection for ball and wall
 
