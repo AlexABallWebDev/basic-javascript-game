@@ -7,12 +7,12 @@ class Paddle {
     this.height = height;
   }
 
-  moveLeft(velocity) {
-    this.x -= velocity;
+  moveLeft(speed) {
+    this.x -= speed;
   }
 
-  moveRight(velocity) {
-    this.y -= velocity;
+  moveRight(speed) {
+    this.x += speed;
   }
 
   draw() {
