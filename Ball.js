@@ -9,11 +9,11 @@ class Ball {
   }
 
   bounceX() {
-    this.x = -x;
+    this.xVelocity = -this.xVelocity;
   }
 
   bounceY() {
-    this.y = -y;
+    this.yVelocity = -this.yVelocity;
   }
 
   moveX() {
