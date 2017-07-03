@@ -99,6 +99,8 @@ $(document).ready(() => {
 
     ball.draw();
 
+    ball.move();
+
     if (left_key_down) {
       paddle.moveLeft(PADDLE_SPEED);
     }
@@ -107,7 +109,10 @@ $(document).ready(() => {
       paddle.moveRight(PADDLE_SPEED);
     }
 
-    //TODO collision detection for ball and wall
+    //if ball collides with a wall
+    if (ball.x <= WALL_WIDTH || ball.x + ball.radius >= CANVAS_WIDTH - WALL_WIDTH) {
+      ball.bounceX();
+    }
 
     //TODO collision detection for paddle and ball
 
