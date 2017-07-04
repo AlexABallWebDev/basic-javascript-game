@@ -110,11 +110,15 @@ $(document).ready(() => {
     }
 
     //if ball collides with a wall
-    if (ball.x <= WALL_WIDTH || ball.x + ball.radius >= CANVAS_WIDTH - WALL_WIDTH) {
+    if (ball.x <= WALL_WIDTH || ball.x + ball.radius >= canvas.width - WALL_WIDTH) {
       ball.bounceX();
     }
 
-    //TODO collision detection for paddle and ball
+    //collision detection for paddle and ball
+    if (ball.x >= paddle.x && ball.x <= paddle.x + paddle.width &&
+      ball.y + ball.radius >= paddle.y && ball.y <= paddle.y + paddle.height) {
+      ball.bounceY();
+    }
 
     //TODO collision detection for bricks and ball
 
