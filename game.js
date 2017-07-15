@@ -82,6 +82,7 @@ $(document).ready(() => {
     //draw bricks
     for (let y = 0; y < 3; y++) {
       for (let x = 0; x < 10; x++) {
+        //if brick has not been broken yet
         if (brickArray[y][x] !== 0) {
           let tileX = WALL_WIDTH + (x * TILE_WIDTH);
           let tileY = (y + 1) * TILE_HEIGHT;
@@ -91,6 +92,13 @@ $(document).ready(() => {
           canvas.context.stroke();
           canvas.context.fillStyle = "yellow";
           canvas.context.fillRect(tileX, tileY, TILE_WIDTH, TILE_HEIGHT);
+
+          //if the ball collides with the brick
+          if (ball.x >= tileX && ball.x <= tileX + TILE_WIDTH &&
+            ball.y + ball.radius >= tileY && ball.y <= tileY + TILE_HEIGHT) {
+            ball.bounceY();
+            brickArray[y][x] = 0;
+          }
         }
       }
     }
@@ -119,10 +127,6 @@ $(document).ready(() => {
       ball.y + ball.radius >= paddle.y && ball.y <= paddle.y + paddle.height) {
       ball.bounceY();
     }
-
-    //TODO collision detection for bricks and ball
-
-    //TODO make bricks vanish when collision occurs and disable collision with vanished bricks.
 
     //TODO add score
 
