@@ -139,12 +139,16 @@ $(document).ready(() => {
       ball.bounceY();
     }
 
+    //collision detection for paddle and walls
+    if (paddle.x <= WALL_WIDTH) {
+      paddle.moveRight(PADDLE_SPEED);
+    }
+    if (paddle.x + paddle.width >= canvas.width - WALL_WIDTH) {
+      paddle.moveLeft(PADDLE_SPEED);
+    }
+
     canvas.context.font = "30px Courier New";
     canvas.context.fillText("Score: " + score, WALL_WIDTH, CANVAS_HEIGHT);
-
-    //TODO add randomness to ball
-
-    //TODO add collision detection for paddle and walls
 
     //TODO add reset feature
 
