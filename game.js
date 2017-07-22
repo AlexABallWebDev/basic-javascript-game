@@ -129,7 +129,7 @@ $(document).ready(() => {
     }
 
     canvas.context.font = "30px Courier New";
-    canvas.context.fillText("Score: " + score, WALL_WIDTH, CANVAS_HEIGHT - 15);
+    canvas.context.fillText("Score: " + score, WALL_WIDTH, CANVAS_HEIGHT);
 
     //TODO add randomness to ball
 
