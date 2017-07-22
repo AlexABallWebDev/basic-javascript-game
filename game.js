@@ -80,8 +80,8 @@ $(document).ready(() => {
     canvas.context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
     //draw bricks
-    for (let y = 0; y < 3; y++) {
-      for (let x = 0; x < 10; x++) {
+    for (let y = 0; y < brickArray.length; y++) {
+      for (let x = 0; x < brickArray[y].length; x++) {
         //if brick has not been broken yet
         if (brickArray[y][x] !== 0) {
           let tileX = WALL_WIDTH + (x * TILE_WIDTH);
@@ -97,7 +97,7 @@ $(document).ready(() => {
           if (ball.x >= tileX && ball.x <= tileX + TILE_WIDTH &&
             ball.y + ball.radius >= tileY && ball.y <= tileY + TILE_HEIGHT) {
             ball.bounceY();
-            brickArray[y][x] = 0;
+            brickArray[y][x] -= 1;
           }
         }
       }
