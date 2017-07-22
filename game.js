@@ -68,8 +68,6 @@ function initializePaddleControls() {
 }
 
 $(document).ready(() => {
-  const face = new Sprite(canvas.context, "face.png");
-
   initializePaddleControls();
 
   let angle = 0;
