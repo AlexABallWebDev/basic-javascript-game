@@ -71,6 +71,7 @@ $(document).ready(() => {
   initializePaddleControls();
 
   let angle = 0;
+  let score = 0;
 
   setInterval(() => {
     //fill background each frame
@@ -96,6 +97,7 @@ $(document).ready(() => {
             ball.y + ball.radius >= tileY && ball.y <= tileY + TILE_HEIGHT) {
             ball.bounceY();
             brickArray[y][x] -= 1;
+            score++;
           }
         }
       }
@@ -126,9 +128,12 @@ $(document).ready(() => {
       ball.bounceY();
     }
 
-    //TODO add score
+    canvas.context.font = "30px Courier New";
+    canvas.context.fillText("Score: " + score, WALL_WIDTH, CANVAS_HEIGHT - 15);
 
     //TODO add randomness to ball
+
+    //TODO add collision detection for paddle and walls
 
     //TODO add reset feature that saves score
 
