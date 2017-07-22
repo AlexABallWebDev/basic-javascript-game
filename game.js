@@ -73,6 +73,11 @@ function initializePaddleControls() {
 $(document).ready(() => {
   initializePaddleControls();
 
+  //randomize where the ball starts and which direction it will go
+  if (Math.random() >= 0.5) {
+    ball.bounceX();
+  }
+
   setInterval(() => {
     //fill background each frame
     canvas.context.fillStyle = "black";
