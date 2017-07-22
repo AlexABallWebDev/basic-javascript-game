@@ -39,6 +39,7 @@ let brickArray = [
 let left_key_down = false;
 let right_key_down = false;
 
+let score = 0;
 
 function initializePaddleControls() {
   //paddle controls
@@ -69,9 +70,6 @@ function initializePaddleControls() {
 
 $(document).ready(() => {
   initializePaddleControls();
-
-  let angle = 0;
-  let score = 0;
 
   setInterval(() => {
     //fill background each frame
