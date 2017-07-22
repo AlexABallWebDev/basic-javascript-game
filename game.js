@@ -70,6 +70,91 @@ function initializePaddleControls() {
   });
 }
 
+function mainGameLoop() {
+  //fill background each frame
+  canvas.context.fillStyle = "black";
+  canvas.context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+  //draw bricks
+  for (let y = 0; y < brickArray.length; y++) {
+    for (let x = 0; x < brickArray[y].length; x++) {
+      //if brick has not been broken yet
+      if (brickArray[y][x] !== 0) {
+        let tileX = WALL_WIDTH + (x * TILE_WIDTH);
+        let tileY = (y + 1) * TILE_HEIGHT;
+        canvas.context.beginPath();
+        canvas.context.fillStyle = "black";
+        canvas.context.rect(tileX, tileY, TILE_WIDTH, TILE_HEIGHT);
+        canvas.context.stroke();
+        canvas.context.fillStyle = "yellow";
+        canvas.context.fillRect(tileX, tileY, TILE_WIDTH, TILE_HEIGHT);
+
+        //if the ball collides with the brick
+        if (ball.x >= tileX && ball.x <= tileX + TILE_WIDTH &&
+          ball.y + ball.radius >= tileY && ball.y <= tileY + TILE_HEIGHT) {
+          ball.bounceY();
+          brickArray[y][x] -= 1;
+          score++;
+        }
+      }
+    }
+  }
+
+  paddle.draw();
+
+  ball.draw();
+
+  //Decrease ball delay timer. Ball will only move once the delay is finished.
+  ballDelayTimer--;
+
+  if (ballDelayTimer <= 0) {
+    ball.move();
+  }
+
+  if (left_key_down) {
+    paddle.moveLeft(PADDLE_SPEED);
+  }
+
+  if (right_key_down) {
+    paddle.moveRight(PADDLE_SPEED);
+  }
+
+  //if ball collides with a wall
+  if (ball.x <= WALL_WIDTH || ball.x + ball.radius >= canvas.width - WALL_WIDTH) {
+    ball.bounceX();
+  }
+
+  //collision detection for paddle and ball
+  if (ball.x >= paddle.x && ball.x <= paddle.x + paddle.width &&
+    ball.y + ball.radius >= paddle.y && ball.y <= paddle.y + paddle.height) {
+    ball.bounceY();
+  }
+
+  //collision detection for paddle and walls
+  if (paddle.x <= WALL_WIDTH) {
+    paddle.moveRight(PADDLE_SPEED);
+  }
+  if (paddle.x + paddle.width >= canvas.width - WALL_WIDTH) {
+    paddle.moveLeft(PADDLE_SPEED);
+  }
+
+  canvas.context.font = "30px Courier New";
+  canvas.context.fillText("Score: " + score, WALL_WIDTH, CANVAS_HEIGHT);
+
+  //TODO add reset feature
+
+  //TODO add wall above bricks so the ball does not leave the game area
+
+  //TODO add game over and then reset feature that resets score
+
+  //TODO add high scores
+
+  //draw walls
+  canvas.context.fillStyle = "blue";
+  canvas.context.fillRect(0, 0, WALL_WIDTH, CANVAS_HEIGHT);
+  canvas.context.fillRect(CANVAS_WIDTH - WALL_WIDTH, 0, WALL_WIDTH, CANVAS_HEIGHT);
+}
+
 $(document).ready(() => {
   initializePaddleControls();
 
@@ -79,87 +164,6 @@ $(document).ready(() => {
     ball.bounceX();
   }
 
-  setInterval(() => {
-    //fill background each frame
-    canvas.context.fillStyle = "black";
-    canvas.context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-
-    //draw bricks
-    for (let y = 0; y < brickArray.length; y++) {
-      for (let x = 0; x < brickArray[y].length; x++) {
-        //if brick has not been broken yet
-        if (brickArray[y][x] !== 0) {
-          let tileX = WALL_WIDTH + (x * TILE_WIDTH);
-          let tileY = (y + 1) * TILE_HEIGHT;
-          canvas.context.beginPath();
-          canvas.context.fillStyle = "black";
-          canvas.context.rect(tileX, tileY, TILE_WIDTH, TILE_HEIGHT);
-          canvas.context.stroke();
-          canvas.context.fillStyle = "yellow";
-          canvas.context.fillRect(tileX, tileY, TILE_WIDTH, TILE_HEIGHT);
-
-          //if the ball collides with the brick
-          if (ball.x >= tileX && ball.x <= tileX + TILE_WIDTH &&
-            ball.y + ball.radius >= tileY && ball.y <= tileY + TILE_HEIGHT) {
-            ball.bounceY();
-            brickArray[y][x] -= 1;
-            score++;
-          }
-        }
-      }
-    }
-
-    paddle.draw();
-
-    ball.draw();
-
-    //Decrease ball delay timer. Ball will only move once the delay is finished.
-    ballDelayTimer--;
-
-    if (ballDelayTimer <= 0) {
-      ball.move();
-    }
-
-    if (left_key_down) {
-      paddle.moveLeft(PADDLE_SPEED);
-    }
-
-    if (right_key_down) {
-      paddle.moveRight(PADDLE_SPEED);
-    }
-
-    //if ball collides with a wall
-    if (ball.x <= WALL_WIDTH || ball.x + ball.radius >= canvas.width - WALL_WIDTH) {
-      ball.bounceX();
-    }
-
-    //collision detection for paddle and ball
-    if (ball.x >= paddle.x && ball.x <= paddle.x + paddle.width &&
-      ball.y + ball.radius >= paddle.y && ball.y <= paddle.y + paddle.height) {
-      ball.bounceY();
-    }
-
-    //collision detection for paddle and walls
-    if (paddle.x <= WALL_WIDTH) {
-      paddle.moveRight(PADDLE_SPEED);
-    }
-    if (paddle.x + paddle.width >= canvas.width - WALL_WIDTH) {
-      paddle.moveLeft(PADDLE_SPEED);
-    }
-
-    canvas.context.font = "30px Courier New";
-    canvas.context.fillText("Score: " + score, WALL_WIDTH, CANVAS_HEIGHT);
-
-    //TODO add reset feature
-
-    //TODO add game over and then reset feature that resets score
-
-    //TODO add high scores
-
-    //draw walls
-    canvas.context.fillStyle = "blue";
-    canvas.context.fillRect(0, 0, WALL_WIDTH, CANVAS_HEIGHT);
-    canvas.context.fillRect(CANVAS_WIDTH - WALL_WIDTH, 0, WALL_WIDTH, CANVAS_HEIGHT);
-
-  }, 1000 / FRAMES_PER_SECOND);
+  //run main game loop
+  setInterval(mainGameLoop, 1000 / FRAMES_PER_SECOND);
 });
