@@ -9,7 +9,7 @@ const TILE_HEIGHT = 32;
 const WALL_WIDTH = 20;
 
 const BALL_INITIAL_X = 331;
-const BALL_INITIAL_Y = 311;
+const BALL_INITIAL_Y = 180;
 const BALL_X_VELOCITY = 2;
 const BALL_Y_VELOCITY = 2;
 const BALL_RADIUS = 9;
