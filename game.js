@@ -74,6 +74,7 @@ $(document).ready(() => {
   initializePaddleControls();
 
   //randomize where the ball starts and which direction it will go
+  ball.x = ((Math.random() * CANVAS_WIDTH / 2) + CANVAS_WIDTH / 4);
   if (Math.random() >= 0.5) {
     ball.bounceX();
   }
