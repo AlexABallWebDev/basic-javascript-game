@@ -13,6 +13,7 @@ const BALL_INITIAL_Y = 311;
 const BALL_X_VELOCITY = 2;
 const BALL_Y_VELOCITY = 2;
 const BALL_RADIUS = 9;
+const BALL_LAUNCH_DELAY = 60;
 
 const PADDLE_INITIAL_X = 300;
 const PADDLE_INITIAL_Y = 400;
@@ -40,6 +41,7 @@ let left_key_down = false;
 let right_key_down = false;
 
 let score = 0;
+let ballDelayTimer = BALL_LAUNCH_DELAY;
 
 function initializePaddleControls() {
   //paddle controls
@@ -105,7 +107,12 @@ $(document).ready(() => {
 
     ball.draw();
 
-    ball.move();
+    //Decrease ball delay timer. Ball will only move once the delay is finished.
+    ballDelayTimer--;
+
+    if (ballDelayTimer <= 0) {
+      ball.move();
+    }
 
     if (left_key_down) {
       paddle.moveLeft(PADDLE_SPEED);
