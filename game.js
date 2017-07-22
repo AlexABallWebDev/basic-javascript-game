@@ -135,9 +135,11 @@ $(document).ready(() => {
 
     //TODO add collision detection for paddle and walls
 
-    //TODO add reset feature that saves score
+    //TODO add reset feature
 
     //TODO add game over and then reset feature that resets score
+
+    //TODO add high scores
 
     //draw walls
     canvas.context.fillStyle = "blue";
