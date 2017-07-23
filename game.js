@@ -24,6 +24,8 @@ const PADDLE_SPEED = 6;
 //keyboard keys
 const LEFT_KEY_CODE = 37;
 const RIGHT_KEY_CODE = 39;
+const R_KEY_CODE = 82;
+const RESET_KEY_CODE = R_KEY_CODE;
 
 const canvas = new Canvas(CANVAS_ID, CANVAS_WIDTH, CANVAS_HEIGHT);
 const ball = new Ball(canvas.context, BALL_INITIAL_X, BALL_INITIAL_Y,
@@ -33,36 +35,38 @@ const paddle = new Paddle(canvas.context, PADDLE_INITIAL_X, PADDLE_INITIAL_Y,
 
 let brickArray;
 
-let left_key_down;
-let right_key_down;
+let leftKeyDown;
+let rightKeyDown;
 
 let score;
 
 let ballDelayTimer;
 
+let gameInterval;
+
 function initializePaddleControls() {
   //paddle controls
   $(document).on("keydown", (e) => {
     if (e.keyCode == LEFT_KEY_CODE) {
-      left_key_down = true;
+      leftKeyDown = true;
     }
   });
 
   $(document).on("keydown", (e) => {
     if (e.keyCode == RIGHT_KEY_CODE) {
-      right_key_down = true;
+      rightKeyDown = true;
     }
   });
 
   $(document).on("keyup", (e) => {
     if (e.keyCode == LEFT_KEY_CODE) {
-      left_key_down = false;
+      leftKeyDown = false;
     }
   });
 
   $(document).on("keyup", (e) => {
     if (e.keyCode == RIGHT_KEY_CODE) {
-      right_key_down = false;
+      rightKeyDown = false;
     }
   });
 }
@@ -76,8 +80,8 @@ function resetBrickArray() {
 }
 
 function resetKeysDown() {
-  left_key_down = false;
-  right_key_down = false;
+  leftKeyDown = false;
+  rightKeyDown = false;
 }
 
 function resetPaddlePosition() {
@@ -136,11 +140,11 @@ function mainGameLoop() {
     ball.move();
   }
 
-  if (left_key_down) {
+  if (leftKeyDown) {
     paddle.moveLeft(PADDLE_SPEED);
   }
 
-  if (right_key_down) {
+  if (rightKeyDown) {
     paddle.moveRight(PADDLE_SPEED);
   }
 
@@ -185,7 +189,8 @@ function mainGameLoop() {
 }
 
 function restartGame() {
-  initializePaddleControls();
+  clearInterval(gameInterval);
+
   resetBrickArray();
   resetKeysDown();
   resetPaddlePosition();
@@ -194,9 +199,20 @@ function restartGame() {
   ballDelayTimer = BALL_LAUNCH_DELAY;
 
   //run main game loop
-  setInterval(mainGameLoop, 1000 / FRAMES_PER_SECOND);
+  gameInterval = setInterval(mainGameLoop, 1000 / FRAMES_PER_SECOND);
+}
+
+function initializeResetButton() {
+  $(document).on("keyup", (e) => {
+    if (e.keyCode == RESET_KEY_CODE) {
+      restartGame();
+    }
+  });
 }
 
 $(document).ready(() => {
+  initializePaddleControls();
+  initializeResetButton();
+
   restartGame();
 });
