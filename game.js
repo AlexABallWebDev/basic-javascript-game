@@ -86,8 +86,13 @@ function resetPaddlePosition() {
 }
 
 function resetBallPosition() {
-  ball.x = BALL_INITIAL_X;
   ball.y = BALL_INITIAL_Y;
+
+  //randomize where the ball starts and which direction it will go
+  ball.x = ((Math.random() * CANVAS_WIDTH / 2) + CANVAS_WIDTH / 4);
+  if (Math.random() >= 0.5) {
+    ball.bounceX();
+  }
 }
 
 function mainGameLoop() {
@@ -185,12 +190,6 @@ $(document).ready(() => {
   resetBallPosition();
   score = 0;
   ballDelayTimer = BALL_LAUNCH_DELAY;
-
-  //randomize where the ball starts and which direction it will go
-  ball.x = ((Math.random() * CANVAS_WIDTH / 2) + CANVAS_WIDTH / 4);
-  if (Math.random() >= 0.5) {
-    ball.bounceX();
-  }
 
   //run main game loop
   setInterval(mainGameLoop, 1000 / FRAMES_PER_SECOND);
