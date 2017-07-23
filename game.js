@@ -123,6 +123,9 @@ function mainGameLoop() {
   if (ball.x <= WALL_WIDTH || ball.x + ball.radius >= canvas.width - WALL_WIDTH) {
     ball.bounceX();
   }
+  if (ball.y <= WALL_WIDTH) {
+    ball.bounceY();
+  }
 
   //collision detection for paddle and ball
   if (ball.x >= paddle.x && ball.x <= paddle.x + paddle.width &&
@@ -143,8 +146,6 @@ function mainGameLoop() {
 
   //TODO add reset feature
 
-  //TODO add wall above bricks so the ball does not leave the game area
-
   //TODO add game over and then reset feature that resets score
 
   //TODO add high scores
@@ -153,6 +154,7 @@ function mainGameLoop() {
   canvas.context.fillStyle = "blue";
   canvas.context.fillRect(0, 0, WALL_WIDTH, CANVAS_HEIGHT);
   canvas.context.fillRect(CANVAS_WIDTH - WALL_WIDTH, 0, WALL_WIDTH, CANVAS_HEIGHT);
+  canvas.context.fillRect(0, 0, CANVAS_WIDTH, WALL_WIDTH);
 }
 
 $(document).ready(() => {
