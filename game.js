@@ -31,17 +31,14 @@ const ball = new Ball(canvas.context, BALL_INITIAL_X, BALL_INITIAL_Y,
 const paddle = new Paddle(canvas.context, PADDLE_INITIAL_X, PADDLE_INITIAL_Y,
   PADDLE_WIDTH, PADDLE_HEIGHT);
 
-let brickArray = [
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-];
+let brickArray;
 
-let left_key_down = false;
-let right_key_down = false;
+let left_key_down;
+let right_key_down;
 
-let score = 0;
-let ballDelayTimer = BALL_LAUNCH_DELAY;
+let score;
+
+let ballDelayTimer;
 
 function initializePaddleControls() {
   //paddle controls
@@ -68,6 +65,29 @@ function initializePaddleControls() {
       right_key_down = false;
     }
   });
+}
+
+function resetBrickArray() {
+  brickArray = [
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+  ];
+}
+
+function resetKeysDown() {
+  left_key_down = false;
+  right_key_down = false;
+}
+
+function resetPaddlePosition() {
+  paddle.x = PADDLE_INITIAL_X;
+  paddle.y = PADDLE_INITIAL_Y;
+}
+
+function resetBallPosition() {
+  ball.x = BALL_INITIAL_X;
+  ball.y = BALL_INITIAL_Y;
 }
 
 function mainGameLoop() {
@@ -159,6 +179,12 @@ function mainGameLoop() {
 
 $(document).ready(() => {
   initializePaddleControls();
+  resetBrickArray();
+  resetKeysDown();
+  resetPaddlePosition();
+  resetBallPosition();
+  score = 0;
+  ballDelayTimer = BALL_LAUNCH_DELAY;
 
   //randomize where the ball starts and which direction it will go
   ball.x = ((Math.random() * CANVAS_WIDTH / 2) + CANVAS_WIDTH / 4);
