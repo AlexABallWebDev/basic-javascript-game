@@ -155,7 +155,9 @@ function mainGameLoop() {
   //collision detection for paddle and ball
   if (ball.x >= paddle.x && ball.x <= paddle.x + paddle.width &&
     ball.y + ball.radius >= paddle.y && ball.y <= paddle.y + paddle.height) {
-    ball.bounceY();
+
+    //ball should always be moving upward after hitting the paddle.
+    ball.yVelocity = -Math.abs(BALL_Y_VELOCITY);
   }
 
   //collision detection for paddle and walls
@@ -182,7 +184,7 @@ function mainGameLoop() {
   canvas.context.fillRect(0, 0, CANVAS_WIDTH, WALL_WIDTH);
 }
 
-$(document).ready(() => {
+function restartGame() {
   initializePaddleControls();
   resetBrickArray();
   resetKeysDown();
@@ -193,4 +195,8 @@ $(document).ready(() => {
 
   //run main game loop
   setInterval(mainGameLoop, 1000 / FRAMES_PER_SECOND);
+}
+
+$(document).ready(() => {
+  restartGame();
 });
