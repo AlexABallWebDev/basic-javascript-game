@@ -175,6 +175,8 @@ function mainGameLoop() {
   canvas.context.font = "30px Courier New";
   canvas.context.fillText("Score: " + score, WALL_WIDTH, CANVAS_HEIGHT);
 
+  //TODO reset bricks (not score) when all bricks are destroyed
+
   //TODO add game over and then reset feature that resets score
 
   //TODO add high scores
