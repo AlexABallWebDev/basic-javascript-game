@@ -8,6 +8,12 @@ const TILE_HEIGHT = 32;
 
 const WALL_WIDTH = 20;
 
+const INITIAL_BRICK_ARRAY = [
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+];
+
 const BALL_INITIAL_X = 331;
 const BALL_INITIAL_Y = 180;
 const BALL_X_VELOCITY = 2;
@@ -20,6 +26,8 @@ const PADDLE_INITIAL_Y = 400;
 const PADDLE_WIDTH = 80;
 const PADDLE_HEIGHT = 20;
 const PADDLE_SPEED = 6;
+
+const LEVEL_COMPLETED_RESET_DELAY = FRAMES_PER_SECOND * 3;
 
 //keyboard keys
 const LEFT_KEY_CODE = 37;
@@ -41,6 +49,9 @@ let rightKeyDown;
 let score;
 
 let ballDelayTimer;
+
+let resetBricks;
+let brickRespawnTimer;
 
 let gameInterval;
 
@@ -72,11 +83,7 @@ function initializePaddleControls() {
 }
 
 function resetBrickArray() {
-  brickArray = [
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-  ];
+  brickArray = JSON.parse(JSON.stringify(INITIAL_BRICK_ARRAY));
 }
 
 function resetKeysDown() {
@@ -99,10 +106,31 @@ function resetBallPosition() {
   }
 }
 
+function areAllBricksDestroyed() {
+  for (let y = 0; y < brickArray.length; y++) {
+    for (let x = 0; x < brickArray[y].length; x++) {
+      if (brickArray[y][x] !== 0) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
+
 function mainGameLoop() {
   //fill background each frame
   canvas.context.fillStyle = "black";
   canvas.context.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+  if (brickRespawnTimer >= 0) {
+    brickRespawnTimer--;
+  }
+
+  if (resetBricks && brickRespawnTimer <= 0) {
+    resetBricks = false;
+    resetBrickArray();
+  }
 
   //draw bricks
   for (let y = 0; y < brickArray.length; y++) {
@@ -124,6 +152,11 @@ function mainGameLoop() {
           ball.bounceY();
           brickArray[y][x] -= 1;
           score++;
+
+          if (areAllBricksDestroyed()) {
+            brickRespawnTimer = LEVEL_COMPLETED_RESET_DELAY;
+            resetBricks = true;
+          }
         }
       }
     }
@@ -175,7 +208,9 @@ function mainGameLoop() {
   canvas.context.font = "30px Courier New";
   canvas.context.fillText("Score: " + score, WALL_WIDTH, CANVAS_HEIGHT);
 
-  //TODO reset bricks (not score) when all bricks are destroyed
+  //TODO rename repository to better fit the current state of this project.
+
+  //TODO add directions on how to play and reset.
 
   //TODO add game over and then reset feature that resets score
 
@@ -197,6 +232,8 @@ function restartGame() {
   resetBallPosition();
   score = 0;
   ballDelayTimer = BALL_LAUNCH_DELAY;
+  brickRespawnTimer = 0;
+  resetBricks = false;
 
   //run main game loop
   gameInterval = setInterval(mainGameLoop, 1000 / FRAMES_PER_SECOND);
